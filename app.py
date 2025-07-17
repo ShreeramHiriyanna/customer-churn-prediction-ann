@@ -80,9 +80,5 @@ elif prediction_proba > 0.5:
 else:
     st.info('Low risk of churn.')
 
-# Save prediction (for analytics/logging)
-input_data['Churn_Probability'] = prediction_proba
-input_data.to_csv('user_predictions.csv', mode='a', header=False, index=False)
-
 # Model accuracy note
 st.markdown("**Model Accuracy**: ~87% on test set")
