@@ -2,7 +2,7 @@
 
 An interactive web app built using Streamlit and a trained Artificial Neural Network (ANN) to predict the likelihood of a customer churning based on banking data.
 
-[Launch the Live App](https://your-streamlit-app-link-here) <!-- Replace with actual URL -->
+[Launch the Live App]([https://your-streamlit-app-link-here](https://customer-churn-prediction-ann-ia4psu3j2df5fbpuzzbd2r.streamlit.app/))
 
 ---
 
