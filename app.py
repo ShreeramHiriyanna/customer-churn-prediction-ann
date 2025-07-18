@@ -1,13 +1,13 @@
 """
 # Customer Churn Predictor (ANN + Streamlit)
 
-This interactive app uses a trained Artificial Neural Network to predict the probability of a customer churning based on demographics and account details. Built with TensorFlow and deployed via Streamlit.
+An interactive web app built with Streamlit and TensorFlow that predicts the probability of a customer leaving (churning) based on demographic and account-related features. The model is trained using an Artificial Neural Network on historical banking data.
 """
 
 import streamlit as st
 import numpy as np
 import tensorflow as tf
-from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import pandas as pd
 import pickle
 
@@ -26,7 +26,8 @@ with open('scaler.pkl', 'rb') as file:
 # App title and description
 st.title('Customer Churn Prediction')
 st.markdown("""
-This app predicts the probability of a customer churning using an Artificial Neural Network trained on historical bank data. Enter the customer information below to get a churn prediction.
+This app predicts the probability of a customer churning using an Artificial Neural Network trained on historical bank data.  
+Please enter the customer information below.
 """)
 
 # User input
@@ -36,10 +37,16 @@ age = st.slider('Age', 18, 92)
 balance = st.number_input('Balance', min_value=0.0)
 credit_score = st.number_input('Credit Score', min_value=0.0)
 estimated_salary = st.number_input('Estimated Salary', min_value=0.0)
-tenure = st.slider('Tenure', 0, 10)
+tenure = st.slider('Tenure (Years with Bank)', 0, 10)
 num_of_products = st.slider('Number of Products', 1, 4)
-has_cr_card = st.selectbox('Has Credit Card', [0, 1])
-is_active_member = st.selectbox('Is Active Member', [0, 1])
+
+has_cr_card_label = st.selectbox('Has Credit Card', ['No (0)', 'Yes (1)'])
+has_cr_card = 0 if has_cr_card_label == 'No (0)' else 1
+st.caption("0 = Customer doesn't own a credit card, 1 = Owns a credit card")
+
+is_active_member_label = st.selectbox('Is Active Member', ['No (0)', 'Yes (1)'])
+is_active_member = 0 if is_active_member_label == 'No (0)' else 1
+st.caption("0 = Not actively using bank services, 1 = Actively engaged with the bank")
 
 # Prepare input data
 input_data = pd.DataFrame({
@@ -62,7 +69,7 @@ input_data = pd.concat([input_data.reset_index(drop=True), geo_encoded_df], axis
 # Scale the data
 input_data_scaled = scaler.transform(input_data)
 
-# Display input summary
+# Input summary
 st.subheader("Input Summary")
 st.write(input_data)
 
@@ -70,15 +77,17 @@ st.write(input_data)
 prediction = model.predict(input_data_scaled)
 prediction_proba = prediction[0][0]
 
-# Display probability and interpretation
+# Show result
+st.subheader("Prediction Result")
 st.write(f'**Churn Probability:** {prediction_proba:.2f}')
+st.caption("Higher values indicate higher likelihood of the customer leaving the bank.")
 
 if prediction_proba > 0.75:
-    st.success('High risk of churn.')
+    st.error('High risk of churn. Immediate action may be needed.')
 elif prediction_proba > 0.5:
-    st.warning('Moderate risk of churn.')
+    st.warning('Moderate risk of churn. Customer may be uncertain.')
 else:
-    st.info('Low risk of churn.')
+    st.success('Low risk of churn. Customer is likely to stay.')
 
-# Model accuracy note
-st.markdown("**Model Accuracy**: ~87% on test set")
+# Footer
+st.markdown("**Model Accuracy**: ~87% on test data")
