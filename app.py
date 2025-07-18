@@ -10,11 +10,6 @@ import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import pandas as pd
 import pickle
-from PIL import Image
-
-# Display banner image
-image = Image.open("banner.png")
-st.image(image, use_column_width=True)
 
 # Load trained model and encoders
 model = tf.keras.models.load_model('model.h5')
