@@ -1,0 +1,17 @@
+[theme]
+base="light"
+
+[server]
+headless = true
+
+[client]
+showErrorDetails = true
+
+[app]
+page_title = "Customer Churn Prediction"
+page_icon = "📈"
+
+[metadata]
+title = "Customer Churn Prediction ANN"
+description = "An interactive Streamlit app that predicts customer churn using a neural network model."
+thumbnail = "https://raw.githubusercontent.com/ShreeramHiriyanna/customer-churn-prediction-ann/main/assets/banner.png"
